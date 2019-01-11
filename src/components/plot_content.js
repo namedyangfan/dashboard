@@ -2,6 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import Plot from 'react-plotly.js';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import L from 'leaflet';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
 
 export default class PlotContent extends React.Component {
   constructor(props) {
@@ -12,7 +22,9 @@ export default class PlotContent extends React.Component {
       value: [],
       date: [],
       latitude: null,
-      longitude: null
+      longitude: null,
+      zoom: 13,
+      station_name: null
     };
   }
 
@@ -64,6 +76,28 @@ export default class PlotContent extends React.Component {
   }
 
   renderPlotFlow = () => {
+    const layout = {
+      responsive: true,
+      width: 600,
+      xaxis: {
+           title: 'Date',
+           titlefont: {
+               family: 'Courier New, monospace',
+               size: 18,
+               color: '#7f7f7f'
+           }
+      },
+      yaxis: {
+           title: 'Discharge Rate ft3/s',
+           automargin: true,
+           titlefont: {
+               family: 'Courier New, monospace',
+               size: 18,
+               color: '#7f7f7f'
+           }
+      },
+
+      }
 
     return(
       <Plot
@@ -77,34 +111,31 @@ export default class PlotContent extends React.Component {
           }
         ]}
 
-        layout={ 
-          {
-            title: `Discharge Profile for Station ${this.state.station_name}`,
-            xaxis: {
-                 title: 'Date',
-                 titlefont: {
-                     family: 'Courier New, monospace',
-                     size: 18,
-                     color: '#7f7f7f'
-                 }
-            },
-            yaxis: {
-                 title: 'Discharge Rate ft3/s',
-                 automargin: true,
-                 titlefont: {
-                     family: 'Courier New, monospace',
-                     size: 18,
-                     color: '#7f7f7f'
-                 }
-            }
-
-          }
-        } 
+        layout={ layout } 
 
       />
     );
   }
 
+  renderleafletMap = () => {
+    const position = [this.state.latitude, this.state.longitude]
+    // const position = [51.1, -0.09]
+
+    return (
+        <Map center={position} zoom={this.state.zoom}>
+          <TileLayer
+            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position}>
+            <Popup>
+              <span>Station: {this.state.station_name}</span>
+            </Popup>
+          </Marker>
+        </Map>
+    )
+
+  }
 
   render() {
     return (
@@ -113,7 +144,18 @@ export default class PlotContent extends React.Component {
           <span> Station Number: {this.props.site_number} </span>
           <div> latitude: {this.state.latitude} </div>
           <div> longitude: {this.state.longitude} </div>
-            {this.renderPlotFlow()}
+            <div className="row">
+              <div className="col s12">
+                <div className="plotly-container">
+                  {this.renderPlotFlow()}
+                </div>
+              </div>
+              <div className="col s12">
+                <div className= "section">
+                  {this.renderleafletMap()}
+                </div>
+              </div>
+            </div>
         </div>
       ):(
         <div className="col offset-s6">

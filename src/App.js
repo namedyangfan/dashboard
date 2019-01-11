@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import NavSideBar from './components/nav_sidebar';
 import PlotContent from './components/plot_content';
+import 'leaflet/dist/leaflet.css'
 
 class App extends React.Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class App extends React.Component {
               <NavSideBar site_number={this.state.site_number} handleChangeStation={this.handleChangeStation} days_interval={this.state.days_interval}
                 handleChangeDayInterval={this.handleChangeDayInterval}/>
             </div>
-            <div className="col s12 m6">
+            <div className="col s12 m9">
               <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
             </div>
           </div>

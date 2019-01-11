@@ -16,3 +16,13 @@ code {
 .dropDownPlaceHolder {
 	font-size: 12px;
 }
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  margin: 10 auto;
+}
+
+.plotly-container {
+  margin: 0 auto;
+}
