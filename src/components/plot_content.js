@@ -58,7 +58,8 @@ export default class PlotContent extends React.Component {
       value: value,
       date: date,
       latitude: response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation.latitude,
-      longitude: response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation.longitude
+      longitude: response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation.longitude,
+      station_name: response.data.value.timeSeries[0].sourceInfo.siteName
     })
   }
 
@@ -73,9 +74,34 @@ export default class PlotContent extends React.Component {
             type: 'scatter',
             mode: 'lines+points',
             marker: {color: 'red'},
-          },
+          }
         ]}
-        layout={ {width: 700, height: 500, title: 'A Fancy Plot'} }
+
+        layout={ 
+          {
+            width: 700, 
+            height: 500, 
+            title: `Discharge Profile for Station ${this.state.station_name}`,
+            xaxis: {
+                 title: 'Date',
+                 titlefont: {
+                     family: 'Courier New, monospace',
+                     size: 18,
+                     color: '#7f7f7f'
+                 }
+            },
+            yaxis: {
+                 title: 'Discharge Rate ft3/s',
+                 titlefont: {
+                     family: 'Courier New, monospace',
+                     size: 18,
+                     color: '#7f7f7f'
+                 }
+            }
+
+          }
+        } 
+
       />
     );
   }
@@ -85,7 +111,7 @@ export default class PlotContent extends React.Component {
     return (
       this.state.isLoaded?(
         <div className="section">
-          <span> the selected station number is: {this.props.site_number} </span>
+          <span> Station Number: {this.props.site_number} </span>
           <div> latitude: {this.state.latitude} </div>
           <div> longitude: {this.state.longitude} </div>
             {this.renderPlotFlow()}
