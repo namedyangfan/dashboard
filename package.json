@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "materialize-css": "^1.0.0-rc.2",
     "plotly.js": "^1.43.2",
     "react": "^16.7.0",

@@ -6,10 +6,13 @@ export default class NavSideBar extends React.Component {
 
   renderTimeInterval = () => {
     const options = [
-      'one', 'two', 'three'
+      { value: '08313000', label : 'RIO GRANDE AT OTOWI BRIDGE'},
+      { value: '08317200', label : 'SANTA FE RIVER ABOVE COCHITI LAKE'},
+      { value: '08378500', label : 'PECOS RIVER NEAR PECOS'},
+
     ]
 
-    const defaultOption = this.props.time_interval
+    const defaultOption = this.props.site_number
 
     return(
       <Dropdown options={options} onChange={this.props.handleChangeInterval} value={defaultOption} placeholder="Select an option" />
@@ -20,11 +23,10 @@ export default class NavSideBar extends React.Component {
 
 
     return (
-      <ul className="sidenav sidenav-fixed" style={{top:'auto'}}>
-        <li>
+        <div className="section">
+          <h7> Select Gauge Station </h7>
           {this.renderTimeInterval()}
-        </li>
-      </ul>
+        </div>
       );
   }
 }

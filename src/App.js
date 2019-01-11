@@ -8,15 +8,15 @@ class App extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      time_interval : 'one'
+      site_number : '08313000'
     }
   }
 
   handleChangeInterval = (e) => {
     this.setState({
-      time_interval : e.value
+      site_number : e.value
     },
-    () => console.log('time_interval: ' + this.state.time_interval)
+    () => console.log('site_number: ' + this.state.site_number)
     )
 
   }
@@ -43,10 +43,10 @@ class App extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col s4">
-              <NavSideBar time_interval={this.state.time_interval} handleChangeInterval={this.handleChangeInterval}/>
+              <NavSideBar site_number={this.state.site_number} handleChangeInterval={this.handleChangeInterval}/>
             </div>
             <div className="col s8">
-              <PlotContent time_interval={this.state.time_interval}/>
+              <PlotContent site_number={this.state.site_number}/>
             </div>
           </div>
         </div>
