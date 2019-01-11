@@ -10,7 +10,9 @@ export default class PlotContent extends React.Component {
       error: null,
       isLoaded: false,
       value: [],
-      date: []
+      date: [],
+      latitude: null,
+      longitude: null
     };
   }
 
@@ -19,7 +21,7 @@ export default class PlotContent extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-        if (prevProps.site_number !== this.props.site_number) {
+        if (prevProps.site_number !== this.props.site_number || prevProps.days_interval !== this.props.days_interval) {
             this.setState({
               isLoaded: false
             }, 
@@ -29,7 +31,7 @@ export default class PlotContent extends React.Component {
   }
 
   getData = () => {
-    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P7D&format=json`
+    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P${this.props.days_interval}D&format=json`
     axios.get(url)
       .then( (response) => {
         // handle success
@@ -51,10 +53,12 @@ export default class PlotContent extends React.Component {
 
     const value = _.map(data, 'value')
     const date = _.map(data, 'dateTime')
-
+    console.log(response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation)
     this.setState({
       value: value,
-      date: date
+      date: date,
+      latitude: response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation.latitude,
+      longitude: response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation.longitude
     })
   }
 
@@ -78,12 +82,29 @@ export default class PlotContent extends React.Component {
 
 
   render() {
-
     return (
-      <div className="section">
-        the selected time interval is: {this.props.site_number}
-          {this.renderPlotFlow()}
-      </div>
-    );
+      this.state.isLoaded?(
+        <div className="section">
+          <span> the selected station number is: {this.props.site_number} </span>
+          <div> latitude: {this.state.latitude} </div>
+          <div> longitude: {this.state.longitude} </div>
+            {this.renderPlotFlow()}
+        </div>
+      ):(
+        <div className="col offset-s6">
+          <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
+              </div><div className="gap-patch">
+                <div className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    )
   }
 }
