@@ -12,7 +12,8 @@ export default class NavSideBar extends React.Component {
     ]
 
     return(
-      <Dropdown options={options} onChange={this.props.handleChangeStation} value={this.props.site_number} placeholder="Select an option" />
+      <Dropdown options={options} onChange={this.props.handleChangeStation} value={this.props.site_number} placeholder="Select an option" 
+        placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
     )
   }
 
@@ -24,7 +25,8 @@ export default class NavSideBar extends React.Component {
     ]
 
     return(
-      <Dropdown options={options} onChange={this.props.handleChangeDayInterval} value={this.props.days_interval} placeholder="Select an option" />
+      <Dropdown options={options} onChange={this.props.handleChangeDayInterval} value={this.props.days_interval} placeholder="Select an option" 
+        placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
     )
   }
 

@@ -37,12 +37,14 @@ class App extends React.Component {
   renderNavBar = () =>{
     return(
       <nav>
-        <div className="nav-wrapper">
-          <a href="#" className="brand-logo">Logo</a>
+        <div className="nav-wrapper blue">
+          <a href="#" className="brand-logo">Demo SPA</a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">JavaScript</a></li>
+            <li>
+              <a href="https://www.linkedin.com/in/fanyangcanada/">
+                <i className="fab fa-linkedin"> Fan Yang</i> 
+              </a>
+              </li>
           </ul>
         </div>
       </nav>
@@ -55,11 +57,11 @@ class App extends React.Component {
         {this.renderNavBar()}
         <div className="container">
           <div className="row">
-            <div className="col s4">
+            <div className="col s3">
               <NavSideBar site_number={this.state.site_number} handleChangeStation={this.handleChangeStation} days_interval={this.state.days_interval}
                 handleChangeDayInterval={this.handleChangeDayInterval}/>
             </div>
-            <div className="col s8">
+            <div className="col s6">
               <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
             </div>
           </div>
