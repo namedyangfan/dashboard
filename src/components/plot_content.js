@@ -79,8 +79,6 @@ export default class PlotContent extends React.Component {
 
         layout={ 
           {
-            width: 700, 
-            height: 500, 
             title: `Discharge Profile for Station ${this.state.station_name}`,
             xaxis: {
                  title: 'Date',
@@ -92,6 +90,7 @@ export default class PlotContent extends React.Component {
             },
             yaxis: {
                  title: 'Discharge Rate ft3/s',
+                 automargin: true,
                  titlefont: {
                      family: 'Courier New, monospace',
                      size: 18,

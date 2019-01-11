@@ -57,11 +57,11 @@ class App extends React.Component {
         {this.renderNavBar()}
         <div className="container">
           <div className="row">
-            <div className="col s3">
+            <div className="col s12 m3">
               <NavSideBar site_number={this.state.site_number} handleChangeStation={this.handleChangeStation} days_interval={this.state.days_interval}
                 handleChangeDayInterval={this.handleChangeDayInterval}/>
             </div>
-            <div className="col s6">
+            <div className="col s12 m6">
               <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
             </div>
           </div>
