@@ -77,7 +77,8 @@ export default class PlotContent extends React.Component {
 
   renderPlotFlow = () => {
     const layout = {
-      width: 600,
+      responsive: true,
+      title: "real-time discharge rate",
       xaxis: {
            title: 'Date',
            titlefont: {
@@ -100,7 +101,7 @@ export default class PlotContent extends React.Component {
 
     return(
       <Plot
-        data={[
+        data = {[
           {
             y: this.state.value,
             x: this.state.date,
@@ -109,9 +110,9 @@ export default class PlotContent extends React.Component {
             marker: {color: 'red'},
           }
         ]}
-
-        layout={ layout } 
-
+        layout = { layout }
+        style = {[{width: "100%", height: "100%"}]}
+        useResizeHandler = 'true'
       />
     );
   }
@@ -140,25 +141,25 @@ export default class PlotContent extends React.Component {
     return (
       this.state.isLoaded?(
         <div className="section">
-          <span> Station Number: {this.props.site_number} </span>
-          <div> latitude: {this.state.latitude} </div>
-          <div> longitude: {this.state.longitude} </div>
             <div className="row">
-              <div className="col s12">
-                <div className="plotly-container">
-                  {this.renderPlotFlow()}
-                </div>
-              </div>
               <div className="col s12">
                 <div className= "section">
                   {this.renderleafletMap()}
                 </div>
               </div>
+              <div className="col s12">
+                <div className="plotly-container">
+                  <div> Station Number: {this.props.site_number} </div>
+                  <div> latitude: {this.state.latitude} </div>
+                  <div> longitude: {this.state.longitude} </div>
+                  {this.renderPlotFlow()}         
+                </div>
+              </div>
             </div>
         </div>
       ):(
-        <div className="col offset-s6">
-          <div className="preloader-wrapper big active">
+        <div className="col 12 offset-s7 loader">
+          <div className="preloader-wrapper big active ">
             <div className="spinner-layer spinner-blue-only">
               <div className="circle-clipper left">
                 <div className="circle"></div>
