@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Plot from 'react-plotly.js';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import L from 'leaflet';
+import PlotTimeSeries from './plot_time_series'
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -12,6 +13,16 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
+
+class Tab extends React.Component {
+  render(){
+    return (
+      <li className={className} onClick={this.props.onClick}> 
+        {this.props.tabLabel}
+      </li>
+    )
+  }
+}
 
 export default class PlotContent extends React.Component {
   constructor(props) {
@@ -43,7 +54,8 @@ export default class PlotContent extends React.Component {
   }
 
   getData = () => {
-    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P${this.props.days_interval}D&format=json`
+    // parameterCd=00060: discharge in cubic feet per second
+    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P${this.props.days_interval}D&&parameterCd=00060&format=json`
     axios.get(url)
       .then( (response) => {
         // handle success
@@ -75,48 +87,6 @@ export default class PlotContent extends React.Component {
     })
   }
 
-  renderPlotFlow = () => {
-    const layout = {
-      responsive: true,
-      title: "real-time discharge rate",
-      xaxis: {
-           title: 'Date',
-           titlefont: {
-               family: 'Courier New, monospace',
-               size: 18,
-               color: '#7f7f7f'
-           }
-      },
-      yaxis: {
-           title: 'Discharge Rate ft3/s',
-           automargin: true,
-           titlefont: {
-               family: 'Courier New, monospace',
-               size: 18,
-               color: '#7f7f7f'
-           }
-      },
-
-      }
-
-    return(
-      <Plot
-        data = {[
-          {
-            y: this.state.value,
-            x: this.state.date,
-            type: 'scatter',
-            mode: 'lines+points',
-            marker: {color: 'red'},
-          }
-        ]}
-        layout = { layout }
-        style = {[{width: "100%", height: "100%"}]}
-        useResizeHandler = 'true'
-      />
-    );
-  }
-
   renderleafletMap = () => {
     const position = [this.state.latitude, this.state.longitude]
     // const position = [51.1, -0.09]
@@ -142,6 +112,11 @@ export default class PlotContent extends React.Component {
       this.state.isLoaded?(
         <div className="section">
             <div className="row">
+              <ul id="tabs-swipe-demo" className="tabs">
+                <li className="tab col s3"><a href="#test-swipe-1">Test 1</a></li>
+                <li className="tab col s3"><a className="active" href="#test-swipe-2">Test 2</a></li>
+                <li className="tab col s3"><a href="#test-swipe-3">Test 3</a></li>
+              </ul>
               <div className="col s12">
                 <div className= "section">
                   {this.renderleafletMap()}
@@ -152,7 +127,7 @@ export default class PlotContent extends React.Component {
                   <div> Station Number: {this.props.site_number} </div>
                   <div> latitude: {this.state.latitude} </div>
                   <div> longitude: {this.state.longitude} </div>
-                  {this.renderPlotFlow()}         
+                  <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
                 </div>
               </div>
             </div>

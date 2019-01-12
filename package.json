@@ -5,6 +5,7 @@
   "homepage": "http://namedyangfan.github.io/dashboard",
   "dependencies": {
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "leaflet": "^1.4.0",
     "lodash": "^4.17.11",
     "materialize-css": "^1.0.0-rc.2",
