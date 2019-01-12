@@ -77,7 +77,6 @@ export default class PlotContent extends React.Component {
 
   renderPlotFlow = () => {
     const layout = {
-      responsive: true,
       width: 600,
       xaxis: {
            title: 'Date',
