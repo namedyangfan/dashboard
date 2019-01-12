@@ -39,3 +39,19 @@ code {
   bottom: 0;
   right: 0;
 }
+
+.active-tab {
+	font-weight: bold;
+    background-color: transparent;
+    border-bottom: solid;
+}
+
+.non-active-tab {
+    background-color: transparent;
+    color: black;
+}
+
+li:hover { 
+  background-color: #bbdefb;
+  cursor: pointer;
+}

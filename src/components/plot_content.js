@@ -5,6 +5,7 @@ import Plot from 'react-plotly.js';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import L from 'leaflet';
 import PlotTimeSeries from './plot_time_series'
+import classNames from 'classnames'
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -16,9 +17,21 @@ L.Icon.Default.mergeOptions({
 
 class Tab extends React.Component {
   render(){
+    const tabLabel = this.props.tabLabel
+    const className = classNames (
+      {
+        'grey-text' : tabLabel !== this.props.activeTab,
+        'active-tab': tabLabel == this.props.activeTab,
+        'blue-text text-lighten-2': tabLabel == this.props.activeTab
+      }
+    )
+
     return (
-      <li className={className} onClick={this.props.onClick}> 
-        {this.props.tabLabel}
+      <li className='tab col s3' onClick={() => {this.props.onClick(tabLabel)}}> 
+        <a className={className}>
+          <i className={this.props.labelClass} style={{font : 15}}></i>
+          <span style={{marginLeft : 10}}>{tabLabel}</span>
+        </a>
       </li>
     )
   }
@@ -35,7 +48,8 @@ export default class PlotContent extends React.Component {
       latitude: null,
       longitude: null,
       zoom: 13,
-      station_name: null
+      station_name: null,
+      activeTab: 'Map'
     };
   }
 
@@ -68,6 +82,16 @@ export default class PlotContent extends React.Component {
         // handle error
         console.log(error);
       })
+  }
+
+  changeActivetAB = (tabLabel) => {
+    console.log(tabLabel)
+    if (this.state.activeTab !== tabLabel){
+      this.setState({
+        activeTab : tabLabel
+      })
+    }
+
   }
 
   sortValueDate = (response) => {
@@ -112,24 +136,23 @@ export default class PlotContent extends React.Component {
       this.state.isLoaded?(
         <div className="section">
             <div className="row">
-              <ul id="tabs-swipe-demo" className="tabs">
-                <li className="tab col s3"><a href="#test-swipe-1">Test 1</a></li>
-                <li className="tab col s3"><a className="active" href="#test-swipe-2">Test 2</a></li>
-                <li className="tab col s3"><a href="#test-swipe-3">Test 3</a></li>
-              </ul>
-              <div className="col s12">
-                <div className= "section">
-                  {this.renderleafletMap()}
+                <ul className="tabs">
+                  <Tab tabLabel="Map" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-globe-americas fa-lg"/>
+                  <Tab tabLabel="Plot" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-chart-line fa-lg"/>
+                </ul>
+                <div className="col s12">
+                  <div className= "section">
+                    {this.renderleafletMap()}
+                  </div>
                 </div>
-              </div>
-              <div className="col s12">
-                <div className="plotly-container">
-                  <div> Station Number: {this.props.site_number} </div>
-                  <div> latitude: {this.state.latitude} </div>
-                  <div> longitude: {this.state.longitude} </div>
-                  <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
+                <div className="col s12">
+                  <div className="plotly-container">
+                    <div> Station Number: {this.props.site_number} </div>
+                    <div> latitude: {this.state.latitude} </div>
+                    <div> longitude: {this.state.longitude} </div>
+                    <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
+                  </div>
                 </div>
-              </div>
             </div>
         </div>
       ):(
