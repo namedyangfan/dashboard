@@ -68,7 +68,9 @@ class App extends React.Component {
                 handleChangeDayInterval={this.handleChangeDayInterval}/>
             </div>
             <div className="col s12 m9">
-              <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
+              <div className="card">
+                <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
+              </div>
             </div>
           </div>
         </div>

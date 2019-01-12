@@ -27,7 +27,7 @@ class Tab extends React.Component {
     )
 
     return (
-      <li className='tab col s3' onClick={() => {this.props.onClick(tabLabel)}}> 
+      <li className='tab col s3 offset-s1' onClick={() => {this.props.onClick(tabLabel)}}> 
         <a className={className}>
           <i className={this.props.labelClass} style={{font : 15}}></i>
           <span style={{marginLeft : 10}}>{tabLabel}</span>
@@ -131,45 +131,60 @@ export default class PlotContent extends React.Component {
 
   }
 
+  renderContent = () => {
+    
+    if (this.state.activeTab == 'Map') {
+      return(
+        <div className="col s12">
+          <div className= "section">
+            <span> Station Number: {this.props.site_number} </span>
+            <span> Latitude: {this.state.latitude} </span>
+            <span> Longitude: {this.state.longitude} </span>
+            {this.renderleafletMap()}
+          </div>
+        </div>
+      )
+    }
+    return (
+      <div className="col s12">
+        <div className="plotly-container">
+
+          <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
-      this.state.isLoaded?(
         <div className="section">
             <div className="row">
+              <div class="col s12">
                 <ul className="tabs">
                   <Tab tabLabel="Map" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-globe-americas fa-lg"/>
                   <Tab tabLabel="Plot" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-chart-line fa-lg"/>
                 </ul>
-                <div className="col s12">
-                  <div className= "section">
-                    {this.renderleafletMap()}
-                  </div>
-                </div>
-                <div className="col s12">
-                  <div className="plotly-container">
-                    <div> Station Number: {this.props.site_number} </div>
-                    <div> latitude: {this.state.latitude} </div>
-                    <div> longitude: {this.state.longitude} </div>
-                    <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
-                  </div>
-                </div>
-            </div>
-        </div>
-      ):(
-        <div className="col 12 offset-s7 loader">
-          <div className="preloader-wrapper big active ">
-            <div className="spinner-layer spinner-blue-only">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
               </div>
+              {this.state.isLoaded?(
+                this.renderContent()
+               ):(
+                <div className="col 12 offset-s7 loader">
+                  <div className="preloader-wrapper big active ">
+                    <div className="spinner-layer spinner-blue-only">
+                      <div className="circle-clipper left">
+                        <div className="circle"></div>
+                      </div><div className="gap-patch">
+                        <div className="circle"></div>
+                      </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               )
+              }
             </div>
-          </div>
         </div>
-      )
     )
   }
 }
