@@ -2,6 +2,40 @@ import React from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import Plot from 'react-plotly.js';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import L from 'leaflet';
+import PlotTimeSeries from './plot_time_series'
+import classNames from 'classnames'
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
+class Tab extends React.Component {
+  render(){
+    const tabLabel = this.props.tabLabel
+    const className = classNames (
+      {
+        'grey-text' : tabLabel !== this.props.activeTab,
+        'active-tab': tabLabel == this.props.activeTab,
+        'blue-text text-lighten-2': tabLabel == this.props.activeTab
+      }
+    )
+
+    return (
+      <li className='tab col s3 offset-s1' onClick={() => {this.props.onClick(tabLabel)}}> 
+        <a className={className}>
+          <i className={this.props.labelClass} style={{font : 15}}></i>
+          <span style={{marginLeft : 10}}>{tabLabel}</span>
+        </a>
+      </li>
+    )
+  }
+}
 
 export default class PlotContent extends React.Component {
   constructor(props) {
@@ -12,7 +46,10 @@ export default class PlotContent extends React.Component {
       value: [],
       date: [],
       latitude: null,
-      longitude: null
+      longitude: null,
+      zoom: 13,
+      station_name: null,
+      activeTab: 'Map'
     };
   }
 
@@ -31,7 +68,8 @@ export default class PlotContent extends React.Component {
   }
 
   getData = () => {
-    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P${this.props.days_interval}D&format=json`
+    // parameterCd=00060: discharge in cubic feet per second
+    const url = `https://waterservices.usgs.gov/nwis/iv/?sites=${this.props.site_number}&period=P${this.props.days_interval}D&&parameterCd=00060&format=json`
     axios.get(url)
       .then( (response) => {
         // handle success
@@ -44,6 +82,16 @@ export default class PlotContent extends React.Component {
         // handle error
         console.log(error);
       })
+  }
+
+  changeActivetAB = (tabLabel) => {
+    console.log(tabLabel)
+    if (this.state.activeTab !== tabLabel){
+      this.setState({
+        activeTab : tabLabel
+      })
+    }
+
   }
 
   sortValueDate = (response) => {
@@ -63,74 +111,80 @@ export default class PlotContent extends React.Component {
     })
   }
 
-  renderPlotFlow = () => {
+  renderleafletMap = () => {
+    const position = [this.state.latitude, this.state.longitude]
+    // const position = [51.1, -0.09]
 
-    return(
-      <Plot
-        data={[
-          {
-            y: this.state.value,
-            x: this.state.date,
-            type: 'scatter',
-            mode: 'lines+points',
-            marker: {color: 'red'},
-          }
-        ]}
+    return (
+        <Map center={position} zoom={this.state.zoom}>
+          <TileLayer
+            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position}>
+            <Popup>
+              <span>Station: {this.state.station_name}</span>
+            </Popup>
+          </Marker>
+        </Map>
+    )
 
-        layout={ 
-          {
-            width: 700, 
-            height: 500, 
-            title: `Discharge Profile for Station ${this.state.station_name}`,
-            xaxis: {
-                 title: 'Date',
-                 titlefont: {
-                     family: 'Courier New, monospace',
-                     size: 18,
-                     color: '#7f7f7f'
-                 }
-            },
-            yaxis: {
-                 title: 'Discharge Rate ft3/s',
-                 titlefont: {
-                     family: 'Courier New, monospace',
-                     size: 18,
-                     color: '#7f7f7f'
-                 }
-            }
-
-          }
-        } 
-
-      />
-    );
   }
 
-
-  render() {
-    return (
-      this.state.isLoaded?(
-        <div className="section">
-          <span> Station Number: {this.props.site_number} </span>
-          <div> latitude: {this.state.latitude} </div>
-          <div> longitude: {this.state.longitude} </div>
-            {this.renderPlotFlow()}
-        </div>
-      ):(
-        <div className="col offset-s6">
-          <div className="preloader-wrapper big active">
-            <div className="spinner-layer spinner-blue-only">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
-              </div>
-            </div>
+  renderContent = () => {
+    
+    if (this.state.activeTab == 'Map') {
+      return(
+        <div className="col s12">
+          <div className= "section">
+            <span> Station Number: {this.props.site_number} </span>
+            <span> Latitude: {this.state.latitude} </span>
+            <span> Longitude: {this.state.longitude} </span>
+            {this.renderleafletMap()}
           </div>
         </div>
       )
+    }
+    return (
+      <div className="col s12">
+        <div className="plotly-container">
+
+          <PlotTimeSeries value={this.state.value} date={this.state.date}/>        
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+        <div className="section">
+            <div className="row">
+              <div class="col s12">
+                <ul className="tabs">
+                  <Tab tabLabel="Map" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-globe-americas fa-lg"/>
+                  <Tab tabLabel="Plot" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-chart-line fa-lg"/>
+                </ul>
+              </div>
+              {this.state.isLoaded?(
+                this.renderContent()
+               ):(
+                <div className="col 12 offset-s7 loader">
+                  <div className="preloader-wrapper big active ">
+                    <div className="spinner-layer spinner-blue-only">
+                      <div className="circle-clipper left">
+                        <div className="circle"></div>
+                      </div><div className="gap-patch">
+                        <div className="circle"></div>
+                      </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               )
+              }
+            </div>
+        </div>
     )
   }
 }

@@ -16,3 +16,42 @@ code {
 .dropDownPlaceHolder {
 	font-size: 12px;
 }
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  margin: 10 auto;
+}
+
+.plotly-container {
+  margin: 0 auto;
+}
+
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.active-tab {
+	font-weight: bold;
+    background-color: transparent;
+    border-bottom: solid;
+}
+
+.non-active-tab {
+    background-color: transparent;
+    color: black;
+}
+
+li:hover { 
+  background-color: #bbdefb;
+  cursor: pointer;
+}
