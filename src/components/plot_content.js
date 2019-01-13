@@ -49,7 +49,6 @@ export default class PlotContent extends React.Component {
       longitude: null,
       zoom: 13,
       station_name: null,
-      activeTab: 'Map'
     };
   }
 
@@ -82,16 +81,6 @@ export default class PlotContent extends React.Component {
         // handle error
         console.log(error);
       })
-  }
-
-  changeActivetAB = (tabLabel) => {
-    console.log(tabLabel)
-    if (this.state.activeTab !== tabLabel){
-      this.setState({
-        activeTab : tabLabel
-      })
-    }
-
   }
 
   sortValueDate = (response) => {
@@ -133,7 +122,7 @@ export default class PlotContent extends React.Component {
 
   renderContent = () => {
     
-    if (this.state.activeTab == 'Map') {
+    if (this.props.activeTab == 'Map') {
       return(
         <div className="col s12">
           <div className= "section">
@@ -161,8 +150,8 @@ export default class PlotContent extends React.Component {
             <div className="row">
               <div class="col s12">
                 <ul className="tabs">
-                  <Tab tabLabel="Map" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-globe-americas fa-lg"/>
-                  <Tab tabLabel="Plot" onClick={this.changeActivetAB} activeTab={this.state.activeTab} labelClass="fas fa-chart-line fa-lg"/>
+                  <Tab tabLabel="Map" onClick={this.props.handleChangeActiveTab} activeTab={this.props.activeTab} labelClass="fas fa-globe-americas fa-lg"/>
+                  <Tab tabLabel="Plot" onClick={this.props.handleChangeActiveTab} activeTab={this.props.activeTab} labelClass="fas fa-chart-line fa-lg"/>
                 </ul>
               </div>
               {this.state.isLoaded?(
