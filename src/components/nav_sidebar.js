@@ -19,9 +19,9 @@ export default class NavSideBar extends React.Component {
 
   renderTimeIntervalFilter = () => {
     let options = [
-      { value: '10', label : 'pass 10 days'},
-      { value: '20', label : 'pass 20 days'},
-      { value: '30', label : 'pass 30 days'},
+      { value: '10', label : 'past 10 days'},
+      { value: '20', label : 'past 20 days'},
+      { value: '30', label : 'past 30 days'},
     ]
 
     return(
