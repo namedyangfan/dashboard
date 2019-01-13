@@ -25,20 +25,29 @@ export default class NavSideBar extends React.Component {
     ]
 
     return(
-      <Dropdown options={options} onChange={this.props.handleChangeDayInterval} value={this.props.days_interval} placeholder="Select an option" 
-        placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
+      <div>
+        <span> Select Duration </span>
+        <Dropdown options={options} onChange={this.props.handleChangeDayInterval} value={this.props.days_interval} 
+        placeholder="Select an option" placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
+      </div>
     )
   }
 
   render() {
-
+    const isPlotOpen = this.props.activeTab == 'Plot'
 
     return (
         <div className="section">
-          <h7> Select Gauge Station </h7>
+          <span> Select Gauge Station </span>
           {this.renderGaugeStationFilter()}
-          <h7> Select Duration </h7>
-          {this.renderTimeIntervalFilter()}
+          
+          {
+            isPlotOpen?(
+              this.renderTimeIntervalFilter()
+            ):(
+              <div/>
+            )
+          }
         </div>
       );
   }

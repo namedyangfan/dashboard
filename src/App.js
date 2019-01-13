@@ -10,7 +10,8 @@ class App extends React.Component {
     super();
     this.state = {
       site_number : '08313000',
-      days_interval : '10'
+      days_interval : '10',
+      activeTab: 'Map'
     }
   }
 
@@ -32,6 +33,16 @@ class App extends React.Component {
     },
     () => console.log('days_interval: ' + this.state.days_interval)
     )
+
+  }
+
+  handleChangeActiveTab = (tabLabel) => {
+    console.log(tabLabel)
+    if (this.state.activeTab !== tabLabel){
+      this.setState({
+        activeTab : tabLabel
+      })
+    }
 
   }
 
@@ -65,11 +76,12 @@ class App extends React.Component {
           <div className="row">
             <div className="col s12 m3">
               <NavSideBar site_number={this.state.site_number} handleChangeStation={this.handleChangeStation} days_interval={this.state.days_interval}
-                handleChangeDayInterval={this.handleChangeDayInterval}/>
+                handleChangeDayInterval={this.handleChangeDayInterval} activeTab={this.state.activeTab}/>
             </div>
             <div className="col s12 m9">
               <div className="card">
-                <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval}/>
+                <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval} activeTab={this.state.activeTab}
+                  handleChangeActiveTab={this.handleChangeActiveTab}/>
               </div>
             </div>
           </div>
