@@ -51,6 +51,23 @@ code {
     color: black;
 }
 
+.potal-container {
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.tooltip-button:hover {
+  cursor: pointer;
+  color: #1565c0;
+}
+
 li:hover { 
   background-color: #bbdefb;
   cursor: pointer;
