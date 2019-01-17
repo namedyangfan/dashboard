@@ -1,42 +1,8 @@
 import React from 'react'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
-import Portal from './portal'
-
-class HelpButton extends React.Component {
-  componentWillMount = () => {
-    document.addEventListener('click', this.props.handleHelpButtonOutsideClick, false);
-  }
-  componentWillUnmount = () => {
-    document.removeEventListener('click', this.props.handleHelpButtonOutsideClick, false);
-
-  }
-
-  render(){
-    return(
-      <i className="far fa-question-circle" onClick={this.props.handleHelpButtonClick}></i>
-    )
-  }
-}
 
 export default class NavSideBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toolTipOpen:false
-    };
-  }
-
-  handleHelpButtonClick = () => {
-    this.setState({
-      toolTipOpen: !this.state.toolTipOpen
-    })
-  }
-
-  handleHelpButtonOutsideClick = (e) => {
-    if(!this.node.contains(e.target))
-      this.setState({ toolTipOpen: false })
-  }
 
   renderGaugeStationFilter = () => {
     let options = [
@@ -73,35 +39,14 @@ export default class NavSideBar extends React.Component {
     return (
       <div className="section">            
         <div className="row">
-          <div class="col s12" ref={(node) => { this.node = node; }}>
-            <h6> 
-              Select Gauge Station 
-              <a className="tooltip-button" style={{marginLeft : 10}}>
-                <HelpButton handleHelpButtonClick={this.handleHelpButtonClick} handleHelpButtonOutsideClick={this.handleHelpButtonOutsideClick}/>
-                {
-                  this.state.toolTipOpen?(
-                  <Portal>
-                    <nav className="potal-container blue darken-4">
-                      <div className="nav-wrapper ">
-                          <ul>
-                              <i className="far fa-lightbulb"></i>
-                              <span> Gauge station is used to monitor and test terrestrial bodies of water. </span>
-                          </ul>
-                      </div>
-                    </nav>
-                  </Portal> 
-                  ):(
-                    null
-                  )
-                }
-              </a>
-            </h6>
+          <div class="col s12">
+            <h6> Select Gauge Station </h6>
             {this.renderGaugeStationFilter()}
             {
               isPlotOpen?(
                 this.renderTimeIntervalFilter()
               ):(
-                null
+                <div/>
               )
             }
           </div>
