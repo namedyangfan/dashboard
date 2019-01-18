@@ -38,7 +38,7 @@ export default class PlotTimeSeries extends React.Component {
     }
 
     return(
-      <Plot data = {[ data ]} layout = { layout } style = {[{width: "100%", height: "100%"}]}
+      <Plot data = {[ data ]} layout = { layout } className="plotly-plot"
         useResizeHandler = 'true'
       />
     );
