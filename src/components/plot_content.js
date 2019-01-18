@@ -84,7 +84,6 @@ export default class PlotContent extends React.Component {
   }
 
   sortValueDate = (response) => {
-    // console.log( response.data.value.timeSeries[0].values[0].value )
 
     const data = response.data.value.timeSeries[0].values[0].value 
 
