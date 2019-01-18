@@ -16,34 +16,25 @@ class App extends React.Component {
   }
 
   handleChangeStation = (e) => {
-    console.log(e)
     this.setState({
       site_number : e.value
-    },
-    () => console.log('site_number: ' + this.state.site_number)
-    )
+    })
 
   }
 
 
   handleChangeDayInterval = (e) => {
-    console.log(e)
     this.setState({
       days_interval : e.value
-    },
-    () => console.log('days_interval: ' + this.state.days_interval)
-    )
-
+    })
   }
 
   handleChangeActiveTab = (tabLabel) => {
-    console.log(tabLabel)
     if (this.state.activeTab !== tabLabel){
       this.setState({
         activeTab : tabLabel
       })
     }
-
   }
 
   renderNavBar = () =>{
