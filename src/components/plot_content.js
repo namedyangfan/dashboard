@@ -90,7 +90,6 @@ export default class PlotContent extends React.Component {
 
     const value = _.map(data, 'value')
     const date = _.map(data, 'dateTime')
-    console.log(response.data.value.timeSeries[0].sourceInfo.geoLocation.geogLocation)
     this.setState({
       value: value,
       date: date,

@@ -25,6 +25,12 @@ code {
 
 .plotly-container {
   margin: 0 auto;
+
+}
+
+.plotly-plot{
+  width: 100%;
+  height: 100%;
 }
 
 .loader {
@@ -42,19 +48,22 @@ code {
 
 .active-tab {
 	font-weight: bold;
-    background-color: transparent;
-    border-bottom: solid;
+  background-color: transparent;
+  border-bottom: solid;
+  font: 15px;
 }
 
 .non-active-tab {
-    background-color: transparent;
-    color: black;
+  background-color: transparent;
+  color: black;
+  font: 15px;
 }
 
 .potal-container {
   background-color: rgba(0,0,0,0.5);
   position: absolute;
   width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   display: flex;
