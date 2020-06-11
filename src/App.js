@@ -1,85 +1,78 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 import NavSideBar from './components/nav_sidebar';
 import PlotContent from './components/plot_content';
-import 'leaflet/dist/leaflet.css'
+import 'leaflet/dist/leaflet.css';
 
-class App extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      site_number : '08313000',
-      days_interval : '10',
-      activeTab: 'Map'
+const App = () => {
+  const [siteNumber, setSiteNumber] = useState('08313000');
+  const [daysInterval, setDaysInterval] = useState('10');
+  const [activeTab, setActiveTab] = useState('Map');
+
+  const handleChangeStation = (e) => {
+    setSiteNumber(e.value);
+  };
+
+  const handleChangeDayInterval = (e) => {
+    setDaysInterval(e.value);
+  };
+
+  const handleChangeActiveTab = (tabLabel) => {
+    if (activeTab !== tabLabel) {
+      setActiveTab(tabLabel);
     }
-  }
+  };
 
-  handleChangeStation = (e) => {
-    this.setState({
-      site_number : e.value
-    })
+  const renderNavBar = () => (
+    <nav>
+      <div className='nav-wrapper blue'>
+        <a href='#' className='brand-logo'>
+          Demo SPA
+        </a>
+        <ul id='nav-mobile' className='right hide-on-med-and-down'>
+          <li>
+            <a href='https://github.com/namedyangfan/dashboard'>
+              <i className='fab fa-github' />
+            </a>
+          </li>
+          <li>
+            <a href='https://www.linkedin.com/in/fanyangcanada/'>
+              <i className='fab fa-linkedin' />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
 
-  }
-
-
-  handleChangeDayInterval = (e) => {
-    this.setState({
-      days_interval : e.value
-    })
-  }
-
-  handleChangeActiveTab = (tabLabel) => {
-    if (this.state.activeTab !== tabLabel){
-      this.setState({
-        activeTab : tabLabel
-      })
-    }
-  }
-
-  renderNavBar = () =>{
-    return(
-      <nav>
-        <div className="nav-wrapper blue">
-          <a href="#" className="brand-logo">Demo SPA</a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li>
-              <a href="https://github.com/namedyangfan/dashboard">
-                <i className="fab fa-github"></i> 
-              </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/fanyangcanada/">
-                <i className="fab fa-linkedin"></i> 
-              </a>
-              </li>
-          </ul>
-        </div>
-      </nav>
-    )
-  }
-
-  render() {
-    return (
-      <div>
-        {this.renderNavBar()}
-        <div className="container">
-          <div className="row">
-            <div className="col s12 m3">
-              <NavSideBar site_number={this.state.site_number} handleChangeStation={this.handleChangeStation} days_interval={this.state.days_interval}
-                handleChangeDayInterval={this.handleChangeDayInterval} activeTab={this.state.activeTab}/>
-            </div>
-            <div className="col s12 m9">
-              <div className="card">
-                <PlotContent site_number={this.state.site_number} days_interval={this.state.days_interval} activeTab={this.state.activeTab}
-                  handleChangeActiveTab={this.handleChangeActiveTab}/>
-              </div>
+  return (
+    <div>
+      {renderNavBar()}
+      <div className='container'>
+        <div className='row'>
+          <div className='col s12 m3'>
+            <NavSideBar
+              site_number={siteNumber}
+              handleChangeStation={handleChangeStation}
+              days_interval={daysInterval}
+              handleChangeDayInterval={handleChangeDayInterval}
+              activeTab={activeTab}
+            />
+          </div>
+          <div className='col s12 m9'>
+            <div className='card'>
+              <PlotContent
+                site_number={siteNumber}
+                days_interval={daysInterval}
+                activeTab={activeTab}
+                handleChangeActiveTab={handleChangeActiveTab}
+              />
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
