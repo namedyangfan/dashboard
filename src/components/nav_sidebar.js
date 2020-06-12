@@ -1,112 +1,109 @@
-import React from 'react'
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
-import Portal from './portal'
+import React, { useState, useRef } from 'react';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
-class HelpButton extends React.Component {
-  componentWillMount = () => {
-    document.addEventListener('click', this.props.handleHelpButtonOutsideClick, false);
-  }
-  componentWillUnmount = () => {
-    document.removeEventListener('click', this.props.handleHelpButtonOutsideClick, false);
+import Portal from './portal';
+import HandleOutsideClick from '../common/HandleOutideClick'
 
-  }
+const HelpBar = ({ handleHelpButtonClick, helpMsg }) => {
+  const ref = useRef();
+  HandleOutsideClick(ref, handleHelpButtonClick);
 
-  render(){
-    return(
-      <i className="far fa-question-circle" onClick={this.props.handleHelpButtonClick}></i>
-    )
-  }
-}
-
-export default class NavSideBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toolTipOpen:false
-    };
-  }
-
-  handleHelpButtonClick = () => {
-    this.setState({
-      toolTipOpen: !this.state.toolTipOpen
-    })
-  }
-
-  handleHelpButtonOutsideClick = (e) => {
-    if(!this.node.contains(e.target))
-      this.setState({ toolTipOpen: false })
-  }
-
-  renderGaugeStationFilter = () => {
-    let options = [
-      { value: '08313000', label : 'RIO GRANDE AT OTOWI BRIDGE'},
-      { value: '08317200', label : 'SANTA FE RIVER ABOVE COCHITI LAKE'},
-      { value: '08378500', label : 'PECOS RIVER NEAR PECOS'},
-    ]
-
-    return(
-      <Dropdown options={options} onChange={this.props.handleChangeStation} value={this.props.site_number} placeholder="Select an option" 
-        placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
-    )
-  }
-
-  renderTimeIntervalFilter = () => {
-    let options = [
-      { value: '10', label : 'past 10 days'},
-      { value: '20', label : 'past 20 days'},
-      { value: '30', label : 'past 30 days'},
-    ]
-
-    return(
-      <div>
-        <h6> Select Duration </h6>
-        <Dropdown options={options} onChange={this.props.handleChangeDayInterval} value={this.props.days_interval} 
-        placeholder="Select an option" placeholderClassName='dropDownPlaceHolder' menuClassName='dropDownPlaceHolder'/>
+  return (
+    <nav className='potal-container blue darken-4'>
+      <div className='nav-wrapper ' ref={ref}>
+        <ul>
+          <i className='far fa-lightbulb' />
+          <span>{helpMsg}</span>
+        </ul>
       </div>
-    )
-  }
+    </nav>
+  );
+};
 
-  render() {
-    const isPlotOpen = this.props.activeTab == 'Plot'
+const NavSideBar = ({
+  handleChangeStation,
+  handleChangeDayInterval,
+  siteNumber,
+  daysInterval,
+  activeTab,
+}) => {
+  const [toolTipOpen, setToolTipOpen] = useState(false);
+  const isPlotOpen = activeTab === 'Plot';
+  const gaugeStationHelpMsg =
+    ' Gauge station is used to monitor and test terrestrial bodies of water ';
+  const handleHelpButtonClick = () => {
+    setToolTipOpen(!toolTipOpen);
+  };
+
+  const renderGaugeStationFilter = () => {
+    const options = [
+      { value: '08313000', label: 'RIO GRANDE AT OTOWI BRIDGE' },
+      { value: '08317200', label: 'SANTA FE RIVER ABOVE COCHITI LAKE' },
+      { value: '08378500', label: 'PECOS RIVER NEAR PECOS' },
+    ];
 
     return (
-      <div className="section">            
-        <div className="row">
-          <div class="col s12">
-            <h6 ref={(node) => { this.node = node; }}> 
-              Select Gauge Station 
-              <a className="tooltip-button" style={{marginLeft : 10}}>
-                <HelpButton handleHelpButtonClick={this.handleHelpButtonClick} handleHelpButtonOutsideClick={this.handleHelpButtonOutsideClick}/>
-                {
-                  this.state.toolTipOpen?(
-                  <Portal>
-                    <nav className="potal-container blue darken-4">
-                      <div className="nav-wrapper ">
-                          <ul>
-                              <i className="far fa-lightbulb"></i>
-                              <span> Gauge station is used to monitor and test terrestrial bodies of water. </span>
-                          </ul>
-                      </div>
-                    </nav>
-                  </Portal> 
-                  ):(
-                    null
-                  )
-                }
-              </a>
-            </h6>
-            {this.renderGaugeStationFilter()}
-            {
-              isPlotOpen?(
-                this.renderTimeIntervalFilter()
-              ):(
-                null
-              )
-            }
-          </div>
-        </div>
+      <Dropdown
+        options={options}
+        onChange={handleChangeStation}
+        value={siteNumber}
+        placeholder='Select an option'
+        placeholderClassName='dropDownPlaceHolder'
+        menuClassName='dropDownPlaceHolder'
+      />
+    );
+  };
+
+  const renderTimeIntervalFilter = () => {
+    const options = [
+      { value: '10', label: 'past 10 days' },
+      { value: '20', label: 'past 20 days' },
+      { value: '30', label: 'past 30 days' },
+    ];
+
+    return (
+      <div>
+        <h6> Select Duration </h6>
+        <Dropdown
+          options={options}
+          onChange={handleChangeDayInterval}
+          value={daysInterval}
+          placeholder='Select an option'
+          placeholderClassName='dropDownPlaceHolder'
+          menuClassName='dropDownPlaceHolder'
+        />
       </div>
     );
-  }
-}
+  };
+
+  return (
+    <div className='section'>
+      <div className='row'>
+        <div class='col s12'>
+          <h6>
+            Select Gauge Station
+            <a className='tooltip-button' style={{ marginLeft: 10 }}>
+              <i
+                className='far fa-question-circle'
+                onClick={handleHelpButtonClick}
+              />
+              {toolTipOpen ? (
+                <Portal>
+                  <HelpBar
+                    handleHelpButtonClick={handleHelpButtonClick}
+                    helpMsg={gaugeStationHelpMsg}
+                  />
+                </Portal>
+              ) : null}
+            </a>
+          </h6>
+          {renderGaugeStationFilter()}
+          {isPlotOpen ? renderTimeIntervalFilter() : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NavSideBar;
