@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import NavSideBar from './NavSideBar'
-import PlotContentSmart from './PlotContentSmart'
+import NavSideBar from './NavSideBar';
+import PlotContentSmart from './PlotContentSmart';
 
 const DashBoard = () => {
   const [siteNumber, setSiteNumber] = useState('08313000');
@@ -21,56 +21,31 @@ const DashBoard = () => {
     }
   };
 
-  const renderNavBar = () => (
-    <nav>
-      <div className='nav-wrapper blue'>
-        <a href='#' className='brand-logo'>
-          Demo SPA
-        </a>
-        <ul id='nav-mobile' className='right hide-on-med-and-down'>
-          <li>
-            <a href='https://github.com/namedyangfan/dashboard'>
-              <i className='fab fa-github' />
-            </a>
-          </li>
-          <li>
-            <a href='https://www.linkedin.com/in/fanyangcanada/'>
-              <i className='fab fa-linkedin' />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
-
   return (
-    <div>
-      {renderNavBar()}
-      <div className='container'>
-        <div className='row'>
-          <div className='col s12 m3'>
-            <NavSideBar
+    <div className='container'>
+      <div className='row'>
+        <div className='col s12 m3'>
+          <NavSideBar
+            siteNumber={siteNumber}
+            handleChangeStation={handleChangeStation}
+            daysInterval={daysInterval}
+            handleChangeDayInterval={handleChangeDayInterval}
+            activeTab={activeTab}
+          />
+        </div>
+        <div className='col s12 m9'>
+          <div className='card'>
+            <PlotContentSmart
               siteNumber={siteNumber}
-              handleChangeStation={handleChangeStation}
               daysInterval={daysInterval}
-              handleChangeDayInterval={handleChangeDayInterval}
               activeTab={activeTab}
+              handleChangeActiveTab={handleChangeActiveTab}
             />
-          </div>
-          <div className='col s12 m9'>
-            <div className='card'>
-              <PlotContentSmart
-                siteNumber={siteNumber}
-                daysInterval={daysInterval}
-                activeTab={activeTab}
-                handleChangeActiveTab={handleChangeActiveTab}
-              />
-            </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default DashBoard
+export default DashBoard;

@@ -1,14 +1,37 @@
 import React from 'react';
-
 import 'leaflet/dist/leaflet.css';
 
-import Dashboard from './components/dashBoard';
 import Routes from './routes';
 
-import './App.css';
-
 const App = () => {
-  return <Routes />;
+  const renderNavBar = () => (
+    <nav>
+      <div className='nav-wrapper blue'>
+        <a href='/' className='brand-logo'>
+          Demo SPA
+        </a>
+        <ul id='nav-mobile' className='right hide-on-med-and-down'>
+          <li>
+            <a href='https://github.com/namedyangfan/dashboard'>
+              <i className='fab fa-github' />
+            </a>
+          </li>
+          <li>
+            <a href='https://www.linkedin.com/in/fanyangcanada/'>
+              <i className='fab fa-linkedin' />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+
+  return (
+    <div>
+      {renderNavBar()}
+      <Routes />
+    </div>
+  );
 };
 
 export default App;
