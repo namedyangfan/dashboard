@@ -3,7 +3,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import Portal from './portal';
-import HandleOutsideClick from '../common/HandleOutideClick'
+import HandleOutsideClick from '../../common/HandleOutideClick'
 
 const HelpBar = ({ handleHelpButtonClick, helpMsg }) => {
   const ref = useRef();
