@@ -2,7 +2,7 @@ import React from 'react';
 import L from 'leaflet';
 import classNames from 'classnames';
 
-import PlotTimeSeries from './plot_time_series';
+import PlotTimeSeries from './plotTimeSeries';
 import PlotMap from './plotMap';
 
 delete L.Icon.Default.prototype._getIconUrl;

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import 'leaflet/dist/leaflet.css'; 
+import 'leaflet/dist/leaflet.css';
 
-import Dashboard from './components/dashBoard'
+import Dashboard from './components/dashBoard';
+import Routes from './routes';
+
 import './App.css';
 
 const App = () => {
-  return (
-    <Dashboard />
-  );
+  return <Routes />;
 };
 
 export default App;

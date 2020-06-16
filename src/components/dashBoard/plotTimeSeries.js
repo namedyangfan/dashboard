@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import Plot from 'react-plotly.js';
 
-const PlotTimeSeries = ({ value, date }) => {
+const plotTimeSeries = ({ value, date }) => {
   const renderPlotFlow = () => {
     const layout = {
       responsive: true,
@@ -47,4 +47,4 @@ const PlotTimeSeries = ({ value, date }) => {
   return renderPlotFlow();
 };
 
-export default PlotTimeSeries
+export default plotTimeSeries
