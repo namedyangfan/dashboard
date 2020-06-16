@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import NavSideBar from './components/nav_sidebar';
-import PlotContent from './components/plot_content';
+import PlotContentSmart from './components/PlotContentSmart';
 import 'leaflet/dist/leaflet.css';
 
 const App = () => {
@@ -52,18 +52,18 @@ const App = () => {
         <div className='row'>
           <div className='col s12 m3'>
             <NavSideBar
-              site_number={siteNumber}
+              siteNumber={siteNumber}
               handleChangeStation={handleChangeStation}
-              days_interval={daysInterval}
+              daysInterval={daysInterval}
               handleChangeDayInterval={handleChangeDayInterval}
               activeTab={activeTab}
             />
           </div>
           <div className='col s12 m9'>
             <div className='card'>
-              <PlotContent
-                site_number={siteNumber}
-                days_interval={daysInterval}
+              <PlotContentSmart
+                siteNumber={siteNumber}
+                daysInterval={daysInterval}
                 activeTab={activeTab}
                 handleChangeActiveTab={handleChangeActiveTab}
               />
