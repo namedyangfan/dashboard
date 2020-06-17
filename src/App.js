@@ -21,6 +21,11 @@ const App = () => {
               <i className='fab fa-linkedin' />
             </a>
           </li>
+          <li>
+            <a href='setting'>
+              <i className="fa fa-cog" aria-hidden="true"></i>
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
