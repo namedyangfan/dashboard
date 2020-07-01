@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { TwitterPicker } from 'react-color';
 
-const ColorPicker = () => {
+const ColorPicker = ({changeThemeColor, themeColor}) => {
   const [toggleColorPicker, setToggleColorPicker] = useState(false);
-  const [themeColor, setThemeColor] = useState('#2196F3')
 
   const handleButtonClick = () => {
     setToggleColorPicker(!toggleColorPicker);
@@ -14,7 +13,7 @@ const ColorPicker = () => {
   };
 
   const handleChooseColor = (color, e) => {
-    setThemeColor(color.hex)
+    changeThemeColor(color.hex)
   };
 
   const buttonStyle = {

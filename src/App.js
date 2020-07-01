@@ -1,6 +1,8 @@
 import React from 'react';
 import 'leaflet/dist/leaflet.css';
+import { Provider } from 'react-redux';
 
+import store from './store';
 import Routes from './routes';
 
 const App = () => {
@@ -32,10 +34,13 @@ const App = () => {
   );
 
   return (
-    <div>
-      {renderNavBar()}
-      <Routes />
-    </div>
+    <Provider store={store}>
+      <div>
+        {renderNavBar()}
+        <Routes />
+      </div>
+    </Provider>
+
   );
 };
 

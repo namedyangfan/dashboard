@@ -1,14 +1,18 @@
 import React from 'react';
-import { TwitterPicker } from 'react-color';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ColorPicker from './ColorPicker'
+import {changeThemeColor, resetThemeColor} from './action'
 
 const Setting = () => {
+  const themeColor = useSelector(state => state.settings.themeColor);
+  const dispatch = useDispatch()
+
   return (
     <div>
       <div className='container'>
         <div className='card'>
-          <ColorPicker />
+          <ColorPicker themeColor={themeColor} changeThemeColor={(color)=>dispatch(changeThemeColor(color))}/>
         </div>
       </div>
     </div>
