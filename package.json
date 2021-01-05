@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "http://namedyangfan.github.io/dashboard",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "leaflet": "^1.4.0",
     "lodash": "^4.17.11",
